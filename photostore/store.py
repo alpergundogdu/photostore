@@ -17,7 +17,7 @@ class Store():
             new.write(uploaded.file.read())
 
     def delete(self, filename: str):
-        remove(filename)
+        remove(path.join(self.working_dir, filename))
 
     def list(self):
         return [f for f in listdir(self.working_dir) if f.endswith(".jpg")]
