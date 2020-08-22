@@ -1,3 +1,4 @@
 WORKING_DIR=/home/ag/photos
+BACKUP_DIR=/home/ag/backup
 SECRET_KEYS_FILE=/home/ag/keys.txt
 

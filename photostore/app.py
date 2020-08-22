@@ -7,11 +7,8 @@ from .store import Store
 
 app = FastAPI()
 
-SECRET_KEYS_FILE = environ["SECRET_KEYS_FILE"]
-WORKING_DIR = environ["WORKING_DIR"]
-
-store = Store(WORKING_DIR)
-auth = Auth(SECRET_KEYS_FILE)
+store = Store(environ["WORKING_DIR"], environ["BACKUP_DIR"])
+auth = Auth(environ["SECRET_KEYS_FILE"])
 
 @app.get("/")
 async def main():
