@@ -1,0 +1,3 @@
+WORKING_DIR=/home/ag/photos
+SECRET_KEYS_FILE=/home/ag/keys.txt
+
