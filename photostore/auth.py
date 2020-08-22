@@ -7,5 +7,5 @@ class Auth():
             self.secret_keys = secret_keys_file.read().split('\n')
 
     def is_valid(self, secret_key: str):
-        return secret_key in self.secret_keys
+        return secret_key in self.secret_keys and secret_key.strip() != ''
 
