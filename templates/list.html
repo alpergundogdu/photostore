@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>List</title>
+	</head>
+	<body>
+		<h3>Photos</h3>
+		{% for item in list %}
+		<a href="file/{{ item.filename }}">{{ item.date }}</a><br/>
+		{% endfor %}
+	</body>
+</html>
+

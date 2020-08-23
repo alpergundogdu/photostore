@@ -1,6 +1,11 @@
-from os import environ
+#!/usr/bin/python3
 
-from fastapi import FastAPI, File, UploadFile, HTTPException, status
+from datetime import datetime
+from os import environ
+from typing import List
+
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile, status
+from fastapi.templating import Jinja2Templates
 
 from .auth import Auth
 from .store import Store
@@ -10,8 +15,29 @@ app = FastAPI()
 store = Store(environ["WORKING_DIR"], environ["BACKUP_DIR"])
 auth = Auth(environ["SECRET_KEYS_FILE"])
 
+templates = Jinja2Templates(directory='templates')
+
+
+def get_date(filename):
+    return str(datetime.fromtimestamp(int(filename.split(".")[0]) / 1000000))
+
+
+def convert_list(filenames: List[str]):
+    return [{
+        "filename": item,
+        "date": get_date(item)
+    } for item in filenames]
+
+
 @app.get("/")
-async def main():
+async def main(request: Request):
+    return templates.TemplateResponse(
+        "list.html",
+        {"request": request, "list": convert_list(store.list())})
+
+
+@app.get("/list")
+async def list_photos():
     return store.list()
 
 
@@ -38,4 +64,3 @@ async def delete(filename: str, secret_key: str):
     if not store.delete(filename):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     return {"result": "success"}
-
