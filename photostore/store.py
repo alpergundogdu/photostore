@@ -16,7 +16,7 @@ class Store():
 
     def upload(self, uploaded: UploadFile):
         filename = str(datetime.timestamp(datetime.now())
-                       ).replace('.', '') + '.jpg'
+                       ).replace('.', '').ljust(16, '0') + '.jpg'
         content = uploaded.file.read()
         with open(path.join(self.working_dir, filename), 'wb') as new:
             new.write(content)

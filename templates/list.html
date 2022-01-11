@@ -1,11 +1,12 @@
 <html>
 	<head>
-		<title>List</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ root.capitalize() }}</title>
 	</head>
 	<body>
 		<h3>Photos</h3>
 		{% for item in list %}
-		<a href="file/{{ item.filename }}">{{ item.date }}</a><br/>
+		<a href="/{{ root }}/file/{{ item.filename }}">{{ item.date }}</a><br/>
 		{% endfor %}
 	</body>
 </html>

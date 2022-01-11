@@ -17,24 +17,28 @@ auth = Auth(environ["SECRET_KEYS_FILE"])
 
 templates = Jinja2Templates(directory='templates')
 
-
 def get_date(filename):
-    return str(datetime.fromtimestamp(int(filename.split(".")[0]) / 1000000))
+    return str(datetime.utcfromtimestamp(int(filename.split(".")[0]) / 1000000))
 
 
 def convert_list(filenames: List[str]):
     return [{
         "filename": item,
         "date": get_date(item)
-    } for item in filenames]
+    } for item in sorted(filenames, reverse=True)]
 
 
 @app.get("/")
 async def main(request: Request):
     return templates.TemplateResponse(
         "list.html",
-        {"request": request, "list": convert_list(store.list())})
+        {"request": request, "list": convert_list(store.list()), "root": "automato"})
 
+@app.get("/list.rss")
+async def list_rss(request: Request):
+    return templates.TemplateResponse(
+        "rss.template",
+        {"request": request, "list": convert_list(store.list()), "root": "automato"})
 
 @app.get("/list")
 async def list_photos():
